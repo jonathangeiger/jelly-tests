@@ -56,8 +56,8 @@ Class Jelly_Load extends PHPUnit_Framework_TestCase
 		Jelly_Test::bootstrap();
 		
 		return array(
-			array(Model::factory('author', 1)->posts->load()), // Has Many
-			array(Model::factory('post', 1)->categories->load()), // Many To Many
+			array(Model::factory('author', 1)->posts), // Has Many
+			array(Model::factory('post', 1)->categories), // Many To Many
 		);
 	}
 	

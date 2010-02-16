@@ -4,7 +4,7 @@ return array
 (
 	'jelly' => array
 	(
-		'type'       => 'pdo',
+		'type'       => 'pdo_sqlite',
 		'connection' => array(
 			/**
 			 * The following options are available for PDO:

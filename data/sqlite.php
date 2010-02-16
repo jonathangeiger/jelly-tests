@@ -67,7 +67,7 @@ return array
 	  created INTEGER NULL,
 	  updated INTEGER NULL,
 	  published INTEGER NULL,
-	  author_id INTEGER NOT NULL
+	  author_id INTEGER NULL
 	);",
 
 	"INSERT INTO posts (id,name,slug,status,created,updated,published,author_id)
