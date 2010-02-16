@@ -3,7 +3,7 @@
 DROP TABLE IF EXISTS authors;
 
 CREATE TABLE authors (
-  id INTEGER PRIMARY_KEY NOT NULL,
+  id INTEGER PRIMARY KEY,
   name TEXT NOT NULL,
   email TEXT NOT NULL,
   role_id INTEGER NOT NULL
@@ -18,7 +18,7 @@ VALUES (1,'Jonathan Geiger','jonathan@jonathan-geiger.com',1);
 DROP TABLE IF EXISTS categories;
 
 CREATE TABLE categories (
-  id INTEGER PRIMARY_KEY NOT NULL,
+  id INTEGER PRIMARY KEY,
   name TEXT NOT NULL,
   parent_id INTEGER NOT NULL
 );
@@ -66,7 +66,7 @@ VALUES (2,3);
 DROP TABLE IF EXISTS posts;
 
 CREATE TABLE posts (
-  id INTEGER PRIMARY_KEY NOT NULL,
+  id INTEGER PRIMARY KEY,
   name TEXT NOT NULL,
   slug TEXT NOT NULL,
   status TEXT NOT NULL,
@@ -87,7 +87,7 @@ VALUES (2,'Second Post','second-post','review',1264985737,1264985737,1264985737,
 DROP TABLE IF EXISTS roles;
 
 CREATE TABLE roles (
-  id INTEGER PRIMARY_KEY NOT NULL,
+  id INTEGER PRIMARY KEY,
   name TEXT NOT NULL
 );
 

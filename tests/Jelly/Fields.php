@@ -8,6 +8,11 @@
  */
 Class Jelly_Fields extends PHPUnit_Framework_TestCase
 {
+	public static function setUpBeforeClass()
+	{
+		Jelly_Test::bootstrap();
+	}
+	
 	public function providerBasicSet()
 	{
 		return array(
@@ -81,5 +86,34 @@ Class Jelly_Fields extends PHPUnit_Framework_TestCase
 	public function testDefaults($actual, $expected)
 	{
 		$this->assertEquals($expected, $actual);
+	}
+	
+	/**
+	 * Tests the unique callback
+	 * @expectedException Validate_Exception
+	 */
+	public function testUnique()
+	{
+		$model1 = Jelly::factory('post');
+		$model1->slug = 'we-will-duplicate-this-later';
+		$model1->name = 'Blah';
+		$model1->save();
+		
+		// Try creating another post with a duplicate slug
+		// An exception should be thrown
+		try
+		{
+			$model2 = Jelly::factory('post');
+			$model2->slug = 'we-will-duplicate-this-later';
+			$model2->save();
+		}
+		catch (Validate_Exception $e)
+		{
+			// Clean up the first post
+			$model1->delete();
+			
+			// Re-throw so it's caught by the test
+			throw $e;
+		}
 	}
 }

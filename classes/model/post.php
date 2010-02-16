@@ -8,7 +8,9 @@ class Model_Post extends Jelly
 		$meta->fields += array(
 			'id' => new Field_Primary,
 			'name' => new Field_String,
-			'slug' => new Field_Slug,
+			'slug' => new Field_Slug(array(
+				'unique' => TRUE
+			)),
 			'author' => new Field_BelongsTo,
 			'categories' => new Field_ManyToMany,
 			'status' => new Field_Enum(array(

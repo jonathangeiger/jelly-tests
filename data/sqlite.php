@@ -6,7 +6,7 @@ return array
 	"DROP TABLE IF EXISTS authors;",
 	
 	"CREATE TABLE authors (
-	  id INTEGER PRIMARY_KEY NOT NULL,
+	  id INTEGER PRIMARY KEY,
 	  name TEXT NOT NULL,
 	  email TEXT NOT NULL,
 	  role_id INTEGER NOT NULL
@@ -18,7 +18,7 @@ return array
 	"DROP TABLE IF EXISTS categories;",
 
 	"CREATE TABLE categories (
-	  id INTEGER PRIMARY_KEY NOT NULL,
+	  id INTEGER PRIMARY KEY,
 	  name TEXT NOT NULL,
 	  parent_id INTEGER NOT NULL
 	);",
@@ -60,10 +60,10 @@ return array
 	"DROP TABLE IF EXISTS posts;",
 
 	"CREATE TABLE posts (
-	  id INTEGER PRIMARY_KEY NOT NULL,
-	  name TEXT NOT NULL,
-	  slug TEXT NOT NULL,
-	  status TEXT NOT NULL,
+	  id INTEGER PRIMARY KEY,
+	  name TEXT NULL,
+	  slug TEXT NULL,
+	  status TEXT NULL,
 	  created INTEGER NULL,
 	  updated INTEGER NULL,
 	  published INTEGER NULL,
@@ -71,15 +71,15 @@ return array
 	);",
 
 	"INSERT INTO posts (id,name,slug,status,created,updated,published,author_id)
-	VALUES (1,'First Post','first-post','draft',1264985737,1264985737,1264985737,1);",
+	VALUES (NULL,'First Post','first-post','draft',1264985737,1264985737,1264985737,1);",
 
 	"INSERT INTO posts (id,name,slug,status,created,updated,published,author_id)
-	VALUES (2,'Second Post','second-post','review',1264985737,1264985737,1264985737,1);",
+	VALUES (NULL,'Second Post','second-post','review',1264985737,1264985737,1264985737,1);",
 
 	"DROP TABLE IF EXISTS roles;",
 
 	"CREATE TABLE roles (
-	  id INTEGER PRIMARY_KEY NOT NULL,
+	  id INTEGER PRIMARY KEY,
 	  name TEXT NOT NULL
 	);",
 
