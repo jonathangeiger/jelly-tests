@@ -8,6 +8,11 @@
  */
 Class Jelly_Input extends PHPUnit_Framework_TestCase
 {
+	public static function setUpBeforeClass()
+	{
+		Jelly_Test::bootstrap();
+	}
+	
 	public function providerCascade()
 	{
 		$model = Model::factory('alias');
