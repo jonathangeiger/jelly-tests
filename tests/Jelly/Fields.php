@@ -116,4 +116,24 @@ Class Jelly_Fields extends PHPUnit_Framework_TestCase
 			throw $e;
 		}
 	}
+	
+	/**
+	 * Tests that passwords aren't rehashed when being set from a database result
+	 */
+	public function testPassword()
+	{
+		$author = Jelly::factory('author');
+		$author->password = 'password'; // hashes to sha1 5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8
+		$author->save();
+		
+		// Verify saved value is correct
+		$this->assertEquals('5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', $author->password);
+		
+		// Re-retrieve the author
+		$author = Jelly::factory('author', $author->id);
+		$this->assertEquals('5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', $author->password);
+		
+		// Cleanup
+		$author->delete();
+	}
 }

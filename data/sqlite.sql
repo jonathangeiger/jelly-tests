@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS authors;
 CREATE TABLE authors (
   id INTEGER PRIMARY KEY,
   name TEXT NOT NULL,
+  password TEXT NULL
   email TEXT NOT NULL,
   role_id INTEGER NOT NULL
 );

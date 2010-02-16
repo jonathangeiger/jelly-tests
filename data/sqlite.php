@@ -7,8 +7,9 @@ return array
 	
 	"CREATE TABLE authors (
 	  id INTEGER PRIMARY KEY,
-	  name TEXT NOT NULL,
-	  email TEXT NOT NULL,
+	  name TEXT NULL,
+	  password TEXT NULL,
+	  email TEXT NULL,
 	  role_id INTEGER NOT NULL
 	);",
 	

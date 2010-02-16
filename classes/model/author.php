@@ -8,6 +8,7 @@ class Model_Author extends Jelly
 		$meta->fields += array(
 			'id' => new Field_Primary,
 			'name' => new Field_String,
+			'password' => new Field_Password,
 			'email' => new Field_Email,
 			'posts' => new Field_HasMany,
 			'post' => new Field_HasOne,
