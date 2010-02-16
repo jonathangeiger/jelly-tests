@@ -22,6 +22,7 @@ Class Jelly_With extends PHPUnit_Framework_TestCase
 			array($model->with('author')->load(1)->author),
 			array($model->with('author:role')->load(1)->author),
 			array($model->with('author:role')->load(1)->author->role),
+			array(Model::factory('author')->with('role')->load(1)->role),
 		);
 	}
 	/**
@@ -29,19 +30,9 @@ Class Jelly_With extends PHPUnit_Framework_TestCase
 	 */
 	public function testWith($model)
 	{
-		// empty() id()s should not be loaded
-		if ($model->id())
-		{
-			// Verify author is loaded and saved
-			$this->assertEquals(TRUE, $model->loaded());
-			$this->assertEquals(TRUE, $model->saved());
-		}
-		else
-		{
-			// Verify author is loaded and saved
-			$this->assertEquals(FALSE, $model->loaded());
-			$this->assertEquals(FALSE, $model->saved());
-		}
+		// Verify author is loaded and saved
+		$this->assertEquals(TRUE, $model->loaded());
+		$this->assertEquals(TRUE, $model->saved());
 	}
 	
 	public function providerWithNonExistentRecord()
@@ -53,6 +44,7 @@ Class Jelly_With extends PHPUnit_Framework_TestCase
 			array($model->with('author')->load(12345)->author),
 			array($model->with('author:role')->load(12345)->author),
 			array($model->with('author:role')->load(12345)->author->role),
+			array(Model::factory('author')->with('role')->load(12345)->role),
 		);
 	}
 	

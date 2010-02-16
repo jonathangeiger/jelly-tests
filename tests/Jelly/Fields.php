@@ -41,4 +41,45 @@ Class Jelly_Fields extends PHPUnit_Framework_TestCase
 	{
 		$this->assertEquals($expected, $field->set($value));
 	}
+	
+	public function providerDefaults()
+	{
+		$belongsto = new Field_BelongsTo;
+		$hasone = new Field_HasOne;
+		$hasmany = new Field_HasMany;
+		$manytomany = new Field_ManyToMany;
+		
+		// Initialize all fields as if they were normally
+		// The names here are arbitrary but based on the test
+		// models just for clarity's sake
+		$belongsto->initialize('post', 'author');
+		$hasone->initialize('author', 'post');
+		$hasmany->initialize('author', 'posts');
+		$manytomany->initialize('post', 'categories');
+		
+		return array(
+			array($belongsto->column, 'author_id'),
+			array($belongsto->foreign['model'], 'author'),
+			array($belongsto->foreign['column'], 'id'),
+			
+			array($hasone->foreign['model'], 'post'),
+			array($hasone->foreign['column'], 'author_id'),
+			
+			array($hasone->foreign['model'], 'post'),
+			array($hasone->foreign['column'], 'author_id'),
+			
+			array($manytomany->foreign['model'], 'category'),
+			array($manytomany->foreign['column'], 'id'),
+			array($manytomany->through['model'], 'categories_posts'),
+			array($manytomany->through['columns'], array('post_id', 'category_id')),
+		);
+	}
+	
+	/**
+	 * @dataProvider providerDefaults
+	 */
+	public function testDefaults($actual, $expected)
+	{
+		$this->assertEquals($expected, $actual);
+	}
 }
