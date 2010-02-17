@@ -6,9 +6,9 @@ class Model_Alias extends Jelly
 	{
 		$meta->db = 'jelly';
 		$meta->fields += array(
-			'id' => new Jelly_Field_Primary('id-alias'),
-			'name' => new Jelly_Field_Slug('name-alias'),
-			'description' => new Jelly_Field_String(array(
+			'id' => new Field_Primary('id-alias'),
+			'name' => new Field_Slug('name-alias'),
+			'description' => new Field_String(array(
 				'column' => 'description-alias'
 			))
 		);
