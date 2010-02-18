@@ -33,4 +33,19 @@ Class Jelly_Bugs extends PHPUnit_Framework_TestCase
 		// Should always be a cached result
 		$this->assertEquals(TRUE, $author->posts instanceof Database_Result_Cached);
 	}
+	
+	/**
+	 * Tests executing queries as different types
+	 */
+	public function testExecutingWithDifferentTypes()
+	{
+		$author = Model::factory('author');
+		$jelly = $author->execute(Database::SELECT);
+		$stdClass = $author->execute(Database::SELECT, TRUE);
+		$array = $author->execute(Database::SELECT, FALSE);
+		
+		$this->assertEquals(TRUE, $jelly[0] instanceof Jelly);
+		$this->assertEquals(TRUE, $stdClass[0] instanceof stdClass);
+		$this->assertEquals(TRUE, is_array($array[0]));
+	}
 }

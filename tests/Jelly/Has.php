@@ -29,6 +29,14 @@ Class Jelly_Has extends PHPUnit_Framework_TestCase
 			array($model->has('post', $post2), TRUE),
 			array($model->has('post', Model::factory('post')), FALSE),
 			array($model->has('post', Model::factory('post')->load()), TRUE),
+			// Test field aliasing
+			array($model->has('_post', 1), TRUE),
+			array($model->has('_post', 2), TRUE),
+			array($model->has('_post', 3), FALSE),
+			array($model->has('_post', $post1), TRUE),
+			array($model->has('_post', $post2), TRUE),
+			array($model->has('_post', Model::factory('post')), FALSE),
+			array($model->has('_post', Model::factory('post')->load()), TRUE),
 		);
 	}
 	
@@ -56,6 +64,14 @@ Class Jelly_Has extends PHPUnit_Framework_TestCase
 			array($model->has('posts', $post2), TRUE),
 			array($model->has('posts', Model::factory('post')), FALSE),
 			array($model->has('posts', Model::factory('post')->load()), TRUE),
+			// Test field aliasing
+			array($model->has('_posts', 1), TRUE),
+			array($model->has('_posts', 2), TRUE),
+			array($model->has('_posts', 3), FALSE),
+			array($model->has('_posts', $post1), TRUE),
+			array($model->has('_posts', $post2), TRUE),
+			array($model->has('_posts', Model::factory('post')), FALSE),
+			array($model->has('_posts', Model::factory('post')->load()), TRUE),
 		);
 	}
 	
@@ -81,6 +97,12 @@ Class Jelly_Has extends PHPUnit_Framework_TestCase
 			array($model->has('categories', $cat1), TRUE),
 			array($model->has('categories', $cat2), TRUE),
 			array($model->has('categories', Model::factory('category')), FALSE),
+			// Test field aliasing
+			array($model->has('_categories', Model::factory('category')->load()), TRUE),
+			array($model->has('_categories', Model::factory('category', array('name' => 'Does not exist'))), FALSE),
+			array($model->has('_categories', $cat1), TRUE),
+			array($model->has('_categories', $cat2), TRUE),
+			array($model->has('_categories', Model::factory('category')), FALSE),
 		);
 	}
 	

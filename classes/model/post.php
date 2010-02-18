@@ -23,6 +23,7 @@ class Model_Post extends Jelly
 			'updated' => new Field_Timestamp(array(
 				'auto_now_update' => TRUE
 			)),
+			'_categories' => 'categories',
 		);
 	}
 }

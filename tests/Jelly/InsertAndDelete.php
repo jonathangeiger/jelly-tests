@@ -55,4 +55,36 @@ Class Jelly_InsertAndDelete extends PHPUnit_Framework_TestCase
 		
 		$this->assertEquals(TRUE, Model::factory('post', 1)->author->loaded());
 	}
+	
+	public function testFieldAlias()
+	{
+		$author = Model::factory('author');
+		$role = Model::factory('role')->save();
+		$posts = array(
+			Model::factory('post')->save(),
+			Model::factory('post')->save(),
+			Model::factory('post')->save(),
+		);
+		
+		$author->set(array(
+			'id' => 5,
+			'_name' => 'Jon',
+			'_post' => $posts[0],
+			'role' => $role,
+			'_posts' => $posts
+		))->save();
+		
+		// Fields should remain the same
+		$this->assertEquals($author->id, $author->_id);
+		$this->assertEquals($author->name, $author->_name);
+		$this->assertEquals($author->post, $author->_post);
+		
+		// Cleanup
+		$author->delete();
+		$role->delete();
+		foreach($posts as $post)
+		{
+			$post->delete();
+		}
+	}
 }
