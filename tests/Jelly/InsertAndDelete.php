@@ -59,7 +59,7 @@ Class Jelly_InsertAndDelete extends PHPUnit_Framework_TestCase
 	public function testFieldAlias()
 	{
 		$author = Model::factory('author');
-		$role = Model::factory('role')->save();
+		$role = Model::factory('role')->set('name', 'Test')->save();
 		$posts = array(
 			Model::factory('post')->save(),
 			Model::factory('post')->save(),

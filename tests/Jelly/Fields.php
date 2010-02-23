@@ -124,6 +124,7 @@ Class Jelly_Fields extends PHPUnit_Framework_TestCase
 	{
 		$author = Jelly::factory('author');
 		$author->password = 'password'; // hashes to sha1 5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8
+		$author->role = 1;
 		$author->save();
 		
 		// Verify saved value is correct
