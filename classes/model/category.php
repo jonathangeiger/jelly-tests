@@ -1,6 +1,6 @@
 <?php
 
-class Model_Category extends Jelly
+class Model_Category extends Jelly_Model
 {
 	public static function initialize($meta)
 	{

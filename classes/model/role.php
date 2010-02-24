@@ -1,6 +1,6 @@
 <?php
 
-class Model_Role extends Jelly
+class Model_Role extends Jelly_Model
 {
 	public static function initialize(Jelly_Meta $meta)
 	{
