@@ -3,5 +3,5 @@
 class Database_PDO_SQLite extends Kohana_Database_PDO 
 {
 	// with() queries break if this is not set for SQLite
-	protected $_identifier = '"';
+	protected $_identifier = '`';
 }

@@ -2,7 +2,7 @@
 
 return array
 (
-	'jelly' => array
+	'jelly-sqlite' => array
 	(
 		'type'       => 'pdo_sqlite',
 		'connection' => array(
@@ -24,6 +24,7 @@ return array
 		'charset'      => FALSE,
 		'caching'      => FALSE,
 		'profiling'    => TRUE,
+		'dump_file'    => 'sqlite',
 	),
 	'jelly-mysql' => array
 	(
@@ -50,5 +51,6 @@ return array
 		'charset'      => 'utf8',
 		'caching'      => FALSE,
 		'profiling'    => TRUE,
+		'dump_file'    => 'mysql',
 	)
 );

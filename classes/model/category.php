@@ -4,7 +4,7 @@ class Model_Category extends Jelly_Model
 {
 	public static function initialize($meta)
 	{
-		$meta->db = 'jelly';
+		$meta->db = Jelly_Test::GROUP;
 		$meta->fields += array(
 			'id' => new Field_Primary,
 			'id_alias' => new Field_Primary('id'),

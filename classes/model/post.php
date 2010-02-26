@@ -4,7 +4,8 @@ class Model_Post extends Jelly_Model
 {
 	public static function initialize(Jelly_Meta $meta)
 	{
-		$meta->db = 'jelly';
+		$meta->db = Jelly_Test::GROUP;
+		$meta->load_with = array('author');
 		$meta->fields += array(
 			'id' => new Field_Primary,
 			'name' => new Field_String,

@@ -22,7 +22,7 @@ Class Jelly_MetaData extends PHPUnit_Framework_TestCase
 	 */
 	public function testClassNameConversion($input, $expected)
 	{
-		$this->assertEquals($expected, Jelly_Meta::class_name($input));
+		$this->assertEquals($expected, Jelly::class_name($input));
 	}
 	
 	public function providerModelNameConversion()
@@ -39,13 +39,13 @@ Class Jelly_MetaData extends PHPUnit_Framework_TestCase
 	 */
 	public function testModelNameConversion($input, $expected)
 	{
-		$this->assertEquals($expected, Jelly_Meta::model_name($input));
+		$this->assertEquals($expected, Jelly::model_name($input));
 	}
 	
 	public function testInitialization()
 	{
-		$this->assertEquals(TRUE, Jelly_Meta::get('alias')->initialized);
-		$this->assertEquals(TRUE, Jelly_Meta::get(new Model_Alias)->initialized);
-		$this->assertEquals(FALSE, Jelly_Meta::get('non-existent-model'));
+		$this->assertEquals(TRUE,  Jelly::meta('alias')->initialized());
+		$this->assertEquals(TRUE,  Jelly::meta(new Model_Alias)->initialized());
+		$this->assertEquals(FALSE, Jelly::meta('non-existent-model'));
 	}
 }
