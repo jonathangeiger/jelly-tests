@@ -25,7 +25,7 @@ Class Jelly_Read extends PHPUnit_Framework_TestCase
 	 */
 	public function testMultipleRecords($count, $result)
 	{
-		$this->assertEquals(TRUE, $result instanceof Jelly_Collection);
+		$this->assertEquals(TRUE, $result instanceof Jelly_Builder);
 		$this->assertEquals($count, count($result));
 		
 		// Each model should be loaded
@@ -85,7 +85,26 @@ Class Jelly_Read extends PHPUnit_Framework_TestCase
 	 */
 	public function testHasMany($result, $count)
 	{
-		$this->assertEquals(TRUE, $result instanceof Jelly_Collection);
+		$this->assertEquals(TRUE, $result instanceof Jelly_Builder);
 		$this->assertEquals($count, $result->count());
+	}
+	
+	public function providerIterator()
+	{
+		return array(
+			array(Jelly::select('post'), 2),
+			array(Jelly::select('author', 1)->posts, 2),
+			array(Jelly::select('post')->where('status', '=', 'draft'), 1),
+		);
+	}
+	
+	/**
+	 * @dataProvider providerIterator
+	 */
+	public function testIteration($builer, $count)
+	{	
+		// If iterator_to_array gets an arry with the right number of values, we can
+		// assume iteration and querying on iteration works...
+		$this->assertEquals(count(iterator_to_array($builer)), $count);
 	}
 }

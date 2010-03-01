@@ -45,11 +45,11 @@ class Jelly_QueryBuilder extends PHPUnit_Framework_TestCase
 	{
 		return array(
 			array(Jelly::select('post')->execute(), 
-				  'Jelly_Collection'),
+				  'Jelly_Builder'),
 			array(Jelly::select('post')->where(':primary_key', '=', 1)->execute(),
-				  'Jelly_Collection'),
+				  'Jelly_Builder'),
 			array(Jelly::select('post')->order_by(':primary_key', 'ASC')->execute(),
-				  'Jelly_Collection'),
+				  'Jelly_Builder'),
 			array(Jelly::select('author')->limit(1)->execute(),
 				  'Jelly_Model'),
 			array(Jelly::select('author')->load(1),
