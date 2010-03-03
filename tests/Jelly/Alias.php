@@ -13,6 +13,7 @@ class Jelly_Alias extends PHPUnit_Framework_TestCase
 		return array(
 			array('alias.id', 'aliases', 'id-alias'),
 			array('alias.bar', 'aliases', 'bar'),
+			array('alias.:foreign_key', 'aliases', 'alias_id'),
 			array('alias.author:foreign_key', 'aliases', 'author_id'),
 			array('author:foreign_key', NULL, 'author_id'),
 			
