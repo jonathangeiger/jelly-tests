@@ -24,8 +24,14 @@ class Jelly_QueryBuilder extends PHPUnit_Framework_TestCase
 			array(Jelly::select('author')->from('post'),
 				  'SELECT * FROM `authors`, `posts`'),				
 			array(Jelly::select('author')->with('role'),
-				  'SELECT `authors`.*, `roles`.`id` AS `:role:id`, `roles`.`name` AS `:role:name` FROM `authors` '.
-				  'LEFT JOIN `roles` ON (`authors`.`role_id` = `roles`.`id`)'),
+				  'SELECT `authors`.*, `roles`.`id` AS `:role:id`, '.
+				  '`roles`.`name` AS `:role:name` FROM `authors` '.
+				  'LEFT JOIN `roles` ON (`authors`.`role_id` = '. 
+				  '`roles`.`id`)'),
+			// This does not resolve to any model, but should still work
+			array(Jelly::select('categories_posts')
+			      ->where('post:foreign_key', '=', 1),
+				 'SELECT * FROM `categories_posts` WHERE `categories_posts`.`post_id` = 1')
 		);
 	}
 	
@@ -35,10 +41,14 @@ class Jelly_QueryBuilder extends PHPUnit_Framework_TestCase
 	public function testQueryBuildingProducesCorrectSQL($query, $sql)
 	{
 		// Compile the SQL
-		$this->assertEquals($query->compile(Database::instance(Jelly_Test::GROUP)), $sql);
+		$compiled = $query->compile(Database::instance(Jelly_Test::GROUP));
+		$this->assertEquals($compiled, $sql);
 		
 		// Execute the query and make sure no errors are thrown
-		$query->execute();
+		// We have to manually specify the group because some
+		// queries are not attached to a model and use the wrong group
+		// I'm not sure if this is "correct"
+		$query->execute(Jelly_Test::GROUP);
 	}
 	
 	public function providerQueryBuildingReturnsCorrectResult()
