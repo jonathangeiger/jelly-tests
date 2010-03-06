@@ -87,5 +87,33 @@ Class Jelly_Read extends PHPUnit_Framework_TestCase
 	{
 		$this->assertEquals(TRUE, $result instanceof Jelly_Collection);
 		$this->assertEquals($count, $result->count());
+		
+		foreach($result as $row)
+		{
+			$this->assertGreaterThan(0, $row->id);
+		}
+	}
+	
+	public function providerManyToMany()
+	{
+		return array(
+			array(Jelly::select('post', 1)->categories, 3),
+			array(Jelly::select('post', 2)->categories, 1),
+			array(Jelly::select('post', 555)->categories, 0),
+		);
+	}
+	
+	/**
+	 * @dataProvider providerManyToMany
+	 */
+	public function testManyToMany($result, $count)
+	{
+		$this->assertEquals(TRUE, $result instanceof Jelly_Collection);
+		$this->assertEquals($count, $result->count());
+		
+		foreach($result as $row)
+		{
+			$this->assertGreaterThan(0, $row->id);
+		}
 	}
 }

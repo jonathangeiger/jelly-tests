@@ -24,6 +24,10 @@ class Model_Post extends Jelly_Model
 			'updated' => new Field_Timestamp(array(
 				'auto_now_update' => TRUE
 			)),
+			
+			// Aliased fields, for testing
+			'_id' => 'id',
+			'_name' => 'name',
 			'_categories' => 'categories',
 		);
 	}

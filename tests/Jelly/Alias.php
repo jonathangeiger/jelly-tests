@@ -13,9 +13,15 @@ class Jelly_Alias extends PHPUnit_Framework_TestCase
 		return array(
 			array('alias.id', 'aliases', 'id-alias'),
 			array('alias.bar', 'aliases', 'bar'),
+			
+			// Test meta-aliasing
 			array('alias.:foreign_key', 'aliases', 'alias_id'),
 			array('alias.author:foreign_key', 'aliases', 'author_id'),
 			array('author:foreign_key', NULL, 'author_id'),
+			
+			// Test aliased fields
+			array('author._id', 'authors', 'id'),
+			array('author._name', 'authors', 'name'),
 			
 			// These don't exist anywhere and can't be resolved to anything
 			array('foo.bar', 'foo', 'bar'),

@@ -12,7 +12,9 @@ class Model_Author extends Jelly_Model
 			'email' => new Field_Email,
 			'posts' => new Field_HasMany,
 			'post' => new Field_HasOne,
-			'role' => new Field_BelongsTo,
+			'role' => new Field_BelongsTo(array(
+				'default' => 0
+			)),
 			// Aliased fields
 			'_id' => 'id',
 			'_name' => 'name',
