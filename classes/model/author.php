@@ -22,7 +22,8 @@ class Model_Author extends Jelly_Model
 			'_email' => 'email',
 			'_posts' => 'posts',
 			'_post' => 'post',
-			'_role' => 'role'
+			'_role' => 'role',
+			'_bar' => 'foo',
 		);
 	}
 }

@@ -21,7 +21,9 @@ class Jelly_Alias extends PHPUnit_Framework_TestCase
 			
 			// Test aliased fields
 			array('author._id', 'authors', 'id'),
-			array('author._name', 'authors', 'name'),
+			
+			// _bar doesn't actually point to a field even though it is aliased to do so
+			array('author._bar', 'authors', '_bar'),
 			
 			// These don't exist anywhere and can't be resolved to anything
 			array('foo.bar', 'foo', 'bar'),
