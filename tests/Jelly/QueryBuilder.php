@@ -31,7 +31,22 @@ class Jelly_QueryBuilder extends PHPUnit_Framework_TestCase
 			// This does not resolve to any model, but should still work
 			array(Jelly::select('categories_posts')
 			      ->where('post:foreign_key', '=', 1),
-				 'SELECT * FROM `categories_posts` WHERE `categories_posts`.`post_id` = 1')
+				 'SELECT * FROM `categories_posts` WHERE `categories_posts`.`post_id` = 1'),
+			// Test Group BY
+			array(Jelly::select('post')
+				->group_by('author'), 
+				'SELECT * FROM `posts` GROUP BY `posts`.`author_id`'),
+			// Test ordering by a non-model column
+			array(Jelly::select('post')
+				->select('post.*', array('COUNT("*")', 'count'))
+				->group_by('author_id')
+				->order_by('count'),
+				'SELECT `posts`.*, COUNT(*) AS `count` FROM `posts` GROUP BY `author_id` ORDER BY `count`'),
+			// Test star is non-selective unless it needs to be
+			// i.e. '*' doesn't get a model automatically applied but post.* is correctly aliased
+			array(Jelly::select('post')
+				->select('post.*', '*'),
+				'SELECT `posts`.*, * FROM `posts`'),
 		);
 	}
 	
