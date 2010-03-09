@@ -9,7 +9,9 @@ class Model_Author extends Jelly_Model
 			'id' => new Field_Primary,
 			'name' => new Field_String,
 			'password' => new Field_Password,
-			'email' => new Field_Email,
+			'email' => new Field_Email(array(
+				'unique' => TRUE,
+			)),
 			'posts' => new Field_HasMany,
 			'post' => new Field_HasOne,
 			'role' => new Field_BelongsTo(array(

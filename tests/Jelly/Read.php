@@ -6,7 +6,7 @@ Jelly_Test::bootstrap();
  * Tests various methods of reading records
  *
  * @group jelly
- * @group jelly.metadata
+ * @group jelly.read
  */
 Class Jelly_Read extends PHPUnit_Framework_TestCase
 {
@@ -115,5 +115,14 @@ Class Jelly_Read extends PHPUnit_Framework_TestCase
 		{
 			$this->assertGreaterThan(0, $row->id);
 		}
+	}
+
+	public function testUniqueKeyLoad()
+	{
+		$jon = Jelly::select('author', 'jonathan@jonathan-geiger.com');
+		
+		$this->assertType('Model_Author', $jon);
+		$this->assertTrue($jon->loaded());
+		$this->assertEquals('Jonathan Geiger', $jon->name);
 	}
 }
