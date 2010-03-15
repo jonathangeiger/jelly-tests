@@ -13,12 +13,15 @@ class Jelly_QueryBuilder extends PHPUnit_Framework_TestCase
 	public function providerQueryBuildingProducesCorrectSQL()
 	{
 		return array(
+			// Post is complex as it has load_with author
 			array(Jelly::select('post'),
-				  'SELECT * FROM `posts`'),
-			array(Jelly::select('post')->where(':primary_key', '=', 1),
-				  'SELECT * FROM `posts` WHERE `posts`.`id` = 1'),
+				  'SELECT `posts`.*, `authors`.`id` AS `:author:id`, `authors`.`name` AS `:author:name`, `authors`.`password` AS `:author:password`, `authors`.`email` AS `:author:email`, `authors`.`role_id` AS `:author:role` FROM `posts` LEFT JOIN `authors` ON (`posts`.`author_id` = `authors`.`id`)'),
+			array(Jelly::select('author')->where(':primary_key', '=', 1),
+				  'SELECT * FROM `authors` WHERE `authors`.`id` = 1'),
+			array(Jelly::select('author')->order_by(':primary_key', 'ASC'),
+				  'SELECT * FROM `authors` ORDER BY `authors`.`id` ASC'),
 			array(Jelly::select('post')->order_by(':primary_key', 'ASC'),
-				  'SELECT * FROM `posts` ORDER BY `posts`.`id` ASC'),
+				  'SELECT `posts`.*, `authors`.`id` AS `:author:id`, `authors`.`name` AS `:author:name`, `authors`.`password` AS `:author:password`, `authors`.`email` AS `:author:email`, `authors`.`role_id` AS `:author:role` FROM `posts` LEFT JOIN `authors` ON (`posts`.`author_id` = `authors`.`id`) ORDER BY `posts`.`id` ASC'),
 			array(Jelly::select('author')->order_by('_id', 'ASC'),
 				  'SELECT * FROM `authors` ORDER BY `authors`.`id` ASC'),				
 			array(Jelly::select('author')->from('post'),
@@ -35,18 +38,18 @@ class Jelly_QueryBuilder extends PHPUnit_Framework_TestCase
 			// Test Group BY
 			array(Jelly::select('post')
 				->group_by('author'), 
-				'SELECT * FROM `posts` GROUP BY `posts`.`author_id`'),
+				'SELECT `posts`.*, `authors`.`id` AS `:author:id`, `authors`.`name` AS `:author:name`, `authors`.`password` AS `:author:password`, `authors`.`email` AS `:author:email`, `authors`.`role_id` AS `:author:role` FROM `posts` LEFT JOIN `authors` ON (`posts`.`author_id` = `authors`.`id`) GROUP BY `posts`.`author_id`'),
 			// Test ordering by a non-model column
 			array(Jelly::select('post')
 				->select('post.*', array('COUNT("*")', 'count'))
 				->group_by('author_id')
 				->order_by('count'),
-				'SELECT `posts`.*, COUNT(*) AS `count` FROM `posts` GROUP BY `author_id` ORDER BY `count`'),
+				'SELECT `posts`.*, `authors`.`id` AS `:author:id`, `authors`.`name` AS `:author:name`, `authors`.`password` AS `:author:password`, `authors`.`email` AS `:author:email`, `authors`.`role_id` AS `:author:role`, COUNT(*) AS `count` FROM `posts` LEFT JOIN `authors` ON (`posts`.`author_id` = `authors`.`id`) GROUP BY `author_id` ORDER BY `count`'),
 			// Test star is non-selective unless it needs to be
 			// i.e. '*' doesn't get a model automatically applied but post.* is correctly aliased
-			array(Jelly::select('post')
-				->select('post.*', '*'),
-				'SELECT `posts`.*, * FROM `posts`'),
+			array(Jelly::select('author')
+				->select('author.*', '*'),
+				'SELECT `authors`.*, * FROM `authors`'),
 		);
 	}
 	
@@ -88,5 +91,19 @@ class Jelly_QueryBuilder extends PHPUnit_Framework_TestCase
 	public function testQueryBuildingReturnsCorrectResult($result, $type)
 	{
 		$this->assertEquals(TRUE, is_a($result, $type));
+	}
+	
+	/**
+	 * Test for issue #58
+	 */
+	public function testCountUsesLoadsWith()
+	{
+		$count = Jelly::select('post')
+			// Where condition includes a column from joined table
+			// this will cause a SQL error if load_with hasn't been taken into account
+			->where('author.name', '=', 'Jonathan Geiger')
+			->count();
+		
+		$this->assertEquals(2, $count);
 	}
 }
