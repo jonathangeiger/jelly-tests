@@ -11,7 +11,8 @@ class Model_Category extends Jelly_Model
 			'name' => new Field_String,
 			'posts' => new Field_HasMany,
 			'parent' => new Field_BelongsTo(array(
-				'foreign' => 'category.parent_id',
+				'foreign' => 'category',
+				'column' => 'parent_id'
 			))
 		);
 	}
