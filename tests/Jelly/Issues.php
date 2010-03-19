@@ -30,4 +30,23 @@ class Jelly_Issues extends PHPUnit_Framework_TestCase
 		$post->id = 1;
 		$this->assertEquals(FALSE, $post->changed('id'));
 	}
+	
+	/**
+	 * Issue #71
+	 */
+	public function testCollectionsAreSerializable()
+	{
+		$posts = Jelly::select('post')->execute();
+		
+		$this->assertType('Jelly_Collection', $posts);
+		$this->assertEquals(2, count($posts));
+		
+		// Serialize and unserialize
+		
+		$posts = unserialize(serialize($posts));
+		
+		$this->assertType('Jelly_Collection', $posts);
+		$this->assertEquals(2, count($posts));
+		$this->assertEquals('First Post', $posts[0]->name);
+	}
 }
