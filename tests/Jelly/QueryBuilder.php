@@ -60,4 +60,18 @@ class Jelly_QueryBuilder extends PHPUnit_Framework_TestCase
 	{
 		$this->assertEquals(TRUE, is_a($result, $type));
 	}
+	
+	/**
+	 * Test for issue #58
+	 */
+	public function testCountUsesLoadsWith()
+	{
+		$count = Jelly::select('post')
+			// Where condition includes a column from joined table
+			// this will cause a SQL error if load_with hasn't been taken into account
+			->where('author.name', '=', 'Jonathan Geiger')
+			->count();
+		
+		$this->assertEquals(2, $count);
+	}
 }
