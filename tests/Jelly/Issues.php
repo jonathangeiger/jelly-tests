@@ -32,6 +32,30 @@ class Jelly_Issues extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
+	 * Tests that NULL values are preserved properly when setting, 
+	 * and that empty strings, NULLs, etc can be changed freely
+	 */
+	public function testIssue51()
+	{
+		$author = Jelly::factory('author');
+		$author->name = NULL;
+		$author->save();
+		
+		// Re-find the author to ensure it comes back as NULL
+		$this->assertEquals(NULL, Jelly::select('author', $author->id)->name);
+		
+		// Save to an empty string
+		$author->name = '';
+		$author->save();
+		
+		// Re-find the author to ensure it comes back as NULL
+		$this->assertEquals('', Jelly::select('author', $author->id)->name);
+		
+		// Cleanup
+		$author->delete();
+	}
+	
+	/**
 	 * Issue #71
 	 */
 	public function testCollectionsAreSerializable()
