@@ -24,17 +24,21 @@ Class Jelly_Fields extends PHPUnit_Framework_TestCase
 			// Integers
 			array(new Field_Integer, 1.1, 1),
 			array(new Field_Integer, '1', 1),
+			array(new Field_Integer, NULL, NULL), // NULLs should be preserved
 			
 			// Floats
 			array(new Field_Float, 1, 1.0),
 			array(new Field_Float(array('places' => 2)), 3.14157, 3.14),
 			array(new Field_Float, '3.14157', 3.14157),
+			array(new Field_Float, NULL, NULL), // NULLs should be preserved
 			
 			// Strings
 			array(new Field_String, 1, '1'),
+			array(new Field_String, NULL, NULL), // NULLs should be preserved
 			
 			// Slugs
 			array(new Field_Slug, 'Hello, World', 'hello-world'),
+			array(new Field_Slug, NULL, NULL), // NULLs should be preserved
 			
 			// Serializable data
 			array(new Field_Serialized, array(), array()),
@@ -44,6 +48,7 @@ Class Jelly_Fields extends PHPUnit_Framework_TestCase
 			array(new Field_Timestamp, 'Some Unparseable Time', 'Some Unparseable Time'),
 			array(new Field_Timestamp, '1264985682', 1264985682),
 			array(new Field_Timestamp, '03/15/2010 12:56:32', 1268675792),
+			array(new Field_Timestamp, NULL, NULL), // NULLs should be preserved
 			
 			// Enumerated lists
 			array(new Field_Enum(array('choices' => array(1,2,3))), '1', 1),
@@ -83,5 +88,28 @@ Class Jelly_Fields extends PHPUnit_Framework_TestCase
 	public function testBasicSet($field, $value, $expected)
 	{
 		$this->assertEquals($expected, $field->set($value));
+	}
+	
+	public function providerNullSet()
+	{
+		return array(
+			array(new Field_Integer(array('null' => TRUE))),
+			array(new Field_Float(array('null' => TRUE))),
+			array(new Field_String(array('null' => TRUE))),
+			array(new Field_Slug(array('null' => TRUE))),
+			array(new Field_Text(array('null' => TRUE))),
+			array(new Field_Timestamp(array('null' => TRUE))),
+			array(new Field_Enum(array('null' => TRUE, 'choices' => array('one', 'two')))),
+		);
+	}
+	
+	/**
+	 * @dataProvider providerNullSet
+	 */
+	public function testNullSet($field)
+	{
+		$this->assertEquals(NULL, $field->set(''));
+		$this->assertEquals(NULL, $field->set(NULL));
+		$this->assertEquals(NULL, $field->set(FALSE));
 	}
 }
