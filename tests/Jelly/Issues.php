@@ -73,4 +73,19 @@ class Jelly_Issues extends PHPUnit_Framework_TestCase
 		$this->assertEquals(2, count($posts));
 		$this->assertEquals('First Post', $posts[0]->name);
 	}
+	
+	/**
+	 * Tests that models in a collection aren't returned as references to the original
+	 * object but as a distinct model.
+	 */
+	public function testIssue87()
+	{
+		$last = NULL;
+		
+		foreach (Jelly::select('post')->execute() as $post)
+		{
+			$this->assertNotEquals($post, $last);
+			$last = $post;
+		}
+	}
 }
