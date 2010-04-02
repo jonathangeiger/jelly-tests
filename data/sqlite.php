@@ -89,4 +89,18 @@ return array
 
 	"INSERT INTO roles (id,name)
 	VALUES (2,'Freelancer');",
+
+	"DROP TABLE IF EXISTS files;",
+
+	"CREATE TABLE files (
+	  id INTEGER PRIMARY KEY,
+	  name TEXT NOT NULL,
+	  type TEXT NOT NULL
+	);",
+
+	"INSERT INTO files (id,name,type)
+	VALUES (1,'Image 1', 'file_image');",
+
+	"INSERT INTO files (id,name,type)
+	VALUES (2,'Text File', 'file_text');",
 );
