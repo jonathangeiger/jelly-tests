@@ -104,15 +104,16 @@ CREATE TABLE `posts` (
   `updated` int(11) DEFAULT NULL,
   `published` int(11) DEFAULT NULL,
   `author_id` int(11) NOT NULL,
+  `approved_by` int(11) NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `posts` WRITE;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
-INSERT INTO `posts` (`id`,`name`,`slug`,`status`,`created`,`updated`,`published`,`author_id`)
+INSERT INTO `posts` (`id`,`name`,`slug`,`status`,`created`,`updated`,`published`,`author_id`,`approved_by`)
 VALUES
-	(1,'First Post','first-post','draft',1264985737,1264985737,1264985737,1),
-	(2,'Second Post','second-post','review',1264985737,1264985737,1264985737,1);
+	(1,'First Post','first-post','draft',1264985737,1264985737,1264985737,1,NULL),
+	(2,'Second Post','second-post','review',1264985737,1264985737,1264985737,1,1);
 
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 UNLOCK TABLES;

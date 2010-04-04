@@ -14,7 +14,7 @@ class Jelly_Test
 	{
 		static $init;
 		
-		if (!$init)
+		if ( ! $init)
 		{
 			$file = Kohana::config('database.'.Jelly_Test::GROUP.'.dump_file');
 			$queries = require Kohana::find_file('data', $file);

@@ -13,6 +13,10 @@ class Model_Post extends Jelly_Model
 				'unique' => TRUE
 			)),
 			'author' => new Field_BelongsTo,
+			'approved_by' => new Field_BelongsTo(array(
+				'foreign' => 'author.id',
+				'column'  => 'approved_by',
+			)),
 			'categories' => new Field_ManyToMany,
 			'status' => new Field_Enum(array(
 				'choices' => array('published', 'draft', 'review'),

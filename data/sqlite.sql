@@ -74,14 +74,15 @@ CREATE TABLE posts (
   created INTEGER NULL,
   updated INTEGER NULL,
   published INTEGER NULL,
-  author_id INTEGER NOT NULL
+  author_id INTEGER NOT NULL,
+  approved_by INTEGER NULL
 );
 
-INSERT INTO posts (id,name,slug,status,created,updated,published,author_id)
-VALUES (1,'First Post','first-post','draft',1264985737,1264985737,1264985737,1);
+INSERT INTO posts (id,name,slug,status,created,updated,published,author_id,approved_by)
+VALUES (1,'First Post','first-post','draft',1264985737,1264985737,1264985737,1,NULL);
 
 INSERT INTO posts (id,name,slug,status,created,updated,published,author_id)
-VALUES (2,'Second Post','second-post','review',1264985737,1264985737,1264985737,1);
+VALUES (2,'Second Post','second-post','review',1264985737,1264985737,1264985737,1,1);
 
 -- Dump of table roles
 -- ------------------------------------------------------------
