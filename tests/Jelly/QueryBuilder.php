@@ -22,11 +22,15 @@ class Jelly_QueryBuilder extends PHPUnit_Framework_TestCase
 			// This does not resolve to any model, but should still work
 			array(Jelly::select('categories_posts')
 			      ->where('post:foreign_key', '=', 1)),
+			
 			// This should join both author and approved by author and work...
 			array(Jelly::select('post')
 				// Author is 'withed' manually,
 				// Join approved_by author
 				->with('approved_by')),
+				
+			// Tests #99
+			array(Jelly::select('post')->select(DB::expr('COUNT(*)')))
 		);
 	}
 	
