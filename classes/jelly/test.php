@@ -8,7 +8,7 @@
  */
 class Jelly_Test
 {
-	const GROUP = 'jelly-sqlite';
+	const GROUP = 'jelly-postgres';
 	
 	public static function bootstrap()
 	{

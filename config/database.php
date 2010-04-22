@@ -52,5 +52,29 @@ return array
 		'caching'      => FALSE,
 		'profiling'    => TRUE,
 		'dump_file'    => 'mysql',
-	)
+	),
+	'jelly-postgres' => array
+	(
+		'type'       => 'pdo_sqlite',
+		'connection' => array(
+			/**
+			 * The following options are available for PDO:
+			 *
+			 * string   dsn
+			 * string   username
+			 * string   password
+			 * boolean  persistent
+			 * string   identifier
+			 */
+			'dsn'        => 'pgsql:host=localhost;dbname=jelly;',
+			'username'   => 'postgres',
+			'password'   => 'password',
+			'persistent' => FALSE,
+		),
+		'table_prefix' => '',
+		'charset'      => FALSE,
+		'caching'      => FALSE,
+		'profiling'    => TRUE,
+		'dump_file'    => 'postgres',
+	),
 );
