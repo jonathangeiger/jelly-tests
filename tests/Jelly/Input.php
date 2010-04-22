@@ -96,7 +96,7 @@ Class Jelly_Input extends PHPUnit_Framework_TestCase
 		$view->name			= 'status';
 		$view->value		= 'draft';
 		$view->attributes	= array('class' => 'test');
-		$view->choices		= array('published', 'draft', 'review');
+		$view->choices		= array('published' => 'published', 'draft' => 'draft', 'review' => 'review');
 		
 		// And compare
 		$this->assertEquals($expected, $view->render());
