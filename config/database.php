@@ -55,7 +55,7 @@ return array
 	),
 	'jelly-postgres' => array
 	(
-		'type'       => 'pdo_sqlite',
+		'type'       => 'pdo_postgres',
 		'connection' => array(
 			/**
 			 * The following options are available for PDO:
