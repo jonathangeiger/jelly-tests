@@ -28,9 +28,6 @@ class Jelly_QueryBuilder extends PHPUnit_Framework_TestCase
 				// Author is 'withed' manually,
 				// Join approved_by author
 				->with('approved_by')),
-				
-			// Tests #99
-			array(Jelly::select('post')->select(DB::expr('COUNT(*)')))
 		);
 	}
 	
@@ -83,5 +80,16 @@ class Jelly_QueryBuilder extends PHPUnit_Framework_TestCase
 		
 		$this->assertEquals(2, $count);
 	}
-
+	
+	/**
+	 * Test for Issue #95. This only fails when testing on Postgres.
+	 */
+	public function testCountWorksOnPostgres()
+	{
+		// Should discard the select and order_by clauses
+		Jelly::select('post')
+			 ->select('foo')
+			 ->order_by('foo')
+			 ->count();
+	}
 }

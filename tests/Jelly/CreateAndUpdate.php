@@ -68,6 +68,9 @@ Class Jelly_CreateAndUpdate extends PHPUnit_Framework_TestCase
 		// Verify the record actually exists in the database
 		$this->assertTrue(Jelly::select('post', 9000)->loaded());
 		
+		// Manually re-selecting so that Postgres doesn't cause errors down the line
+		$model = Jelly::select('post', 9000);
+		
 		// Change it again so we can verify it works on UPDATE as well
 		// This is key because Jelly got this wrong in the past
 		$model->id = 9001;
@@ -80,7 +83,7 @@ Class Jelly_CreateAndUpdate extends PHPUnit_Framework_TestCase
 		$this->assertTrue(Jelly::select('post', 9001)->loaded());
 		
 		// Cleanup
-		$model->delete();
+		Jelly::select('post', 9001)->delete();
 	}
 	
 	/**

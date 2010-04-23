@@ -16,8 +16,8 @@ Class Jelly_AddRemove extends PHPUnit_Framework_TestCase
 			array(1, 1),
 			array(Jelly::select('post')->execute(), 2),
 			array(array(1, 2), 2),
-			array('does not exist', 0),
-			array(array('does', 'not', 'exist', 45), 0),
+			array(999, 0),
+			array(array(999, 998, 997, 45), 0),
 			array(array(Jelly::factory('post')), 0),
 		);
 	}
@@ -51,8 +51,8 @@ Class Jelly_AddRemove extends PHPUnit_Framework_TestCase
 			array(1, 1),
 			array(Jelly::select('category')->execute(), 3),
 			array(array(1, 2), 2),
-			array('does not exist', 0),
-			array(array('do', 'not', 'exist', 45), 0),
+			array(999, 0),
+			array(array(999, 998, 997, 45), 0),
 			array(array(Jelly::factory('category')), 0),
 		);
 	}
