@@ -112,4 +112,14 @@ Class Jelly_Fields extends PHPUnit_Framework_TestCase
 		$this->assertEquals(NULL, $field->set(NULL));
 		$this->assertEquals(NULL, $field->set(FALSE));
 	}
+	
+	/**
+	 * Tests that timestamps specified with a format are converted properly.
+	 */
+	public function testIssue113()
+	{
+		$field = new Field_Timestamp(array('format' => 'Y-m-d H:i:s'));
+		$this->assertEquals("2010-03-15 05:45:00", $field->save(NULL, "2010-03-15 05:45:00", FALSE));
+		$this->assertEquals("2010-03-15 05:45:00", $field->save(NULL, 1268649900, FALSE));
+	}
 }
