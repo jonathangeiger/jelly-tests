@@ -20,12 +20,9 @@ Class Jelly_Inheritance extends PHPUnit_Framework_TestCase
 	
 	function testSubclassListing()
 	{
-		$files = Jelly::select('file_image')->execute();
-		
-		echo Kohana::debug($files);
-		die ;
-		
+		$files = Jelly::select('file_image')->compile(Database::instance(Jelly_Test::GROUP));
 		
 		$this->assertType('Model_File_Image', $files[0]);
+		$this->assertEquals(1, count($files));
 	}
 }

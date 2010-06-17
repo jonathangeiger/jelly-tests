@@ -109,8 +109,8 @@ CREATE TABLE files (
 );
 
 INSERT INTO files (id,name,type)
-VALUES (1,'Image 1', 'file_image');
+VALUES (1,'Image 1', 'image');
 
 INSERT INTO files (id,name,type)
-VALUES (2,'Text File', 'file_text');
+VALUES (2,'Text File', 'text');
 
