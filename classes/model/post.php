@@ -1,10 +1,17 @@
-<?php
+<?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_Post extends Jelly_Model
+/**
+ * Represents a post in the database.
+ *
+ * @package  Jelly
+ */
+class Model_Post extends Model_Test
 {
 	public static function initialize(Jelly_Meta $meta)
 	{
-		$meta->db(Jelly_Test::GROUP);
+		parent::initialize($meta);
+		
+		// Posts always load_with an author
 		$meta->load_with(array('author'));
 		$meta->fields(array(
 			'id'   => Jelly::field('primary'),
@@ -16,8 +23,7 @@ class Model_Post extends Jelly_Model
 			)),
 			
 			'status'  => Jelly::field('enum', array(
-				'choices' => array('published', 'draft', 'review'),
-				'default' => 'draft'
+				'choices' => array('draft', 'published', 'review'),
 			)),
 			
 			'created' => Jelly::field('timestamp', array(
@@ -37,10 +43,9 @@ class Model_Post extends Jelly_Model
 			
 			'categories'  => Jelly::field('manytomany'),
 			
-			// Aliased fields, for testing
-			'_id' => 'id',
-			'_name' => 'name',
-			'_categories' => 'categories',
-		);
+			// Alias columns, for testing
+			'_id'   => 'id',
+			'_slug' => 'slug'
+		));
 	}
 }

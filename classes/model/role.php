@@ -1,13 +1,19 @@
-<?php
+<?php defined('SYSPATH') or die('No direct script access.');
 
-class Model_Role extends Jelly_Model
+/**
+ * Represents a specific role in the database.
+ *
+ * @package  Jelly
+ */
+class Model_Role extends Model_Test
 {
 	public static function initialize(Jelly_Meta $meta)
 	{
-		$meta->db = Jelly_Test::GROUP;
-		$meta->fields += array(
-			'id' => new Field_Primary,
-			'name' => new Field_String,
-		);
+		parent::initialize($meta);
+		
+		$meta->fields(array(
+			'id' => new Jelly_Field_Primary,
+			'name' => new Jelly_Field_String,
+		));
 	}
 }

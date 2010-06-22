@@ -1,5 +1,10 @@
-<?php
+<?php defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * Represents an author in the database.
+ *
+ * @package  Jelly
+ */
 class Model_Author extends Model_Test
 {
 	public static function initialize(Jelly_Meta $meta)
@@ -14,6 +19,9 @@ class Model_Author extends Model_Test
 			'posts'    => Jelly::field('hasmany'),
 			'post'     => Jelly::field('hasone'),
 			'role'     => Jelly::field('belongsto'),
+			
+			// Aliases for testing
+			'_id'      => 'id',
 		 ));
 	}
 }

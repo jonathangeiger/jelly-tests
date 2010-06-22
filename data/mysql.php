@@ -16,7 +16,9 @@ return array
 
 	"INSERT INTO `authors` (`id`,`name`,`email`,`role_id`)
 	VALUES
-		(1,'Jonathan Geiger','jonathan@jonathan-geiger.com',1);",
+		(1,'Jonathan Geiger','jonathan@jonathan-geiger.com', 1),
+		(2,'Paul Banks','paul@banks.com', 0),
+		(3,'Bobby Tables','bobby@sql-injection.com', 2);",
 
 	"DROP TABLE IF EXISTS `categories`;",
 
