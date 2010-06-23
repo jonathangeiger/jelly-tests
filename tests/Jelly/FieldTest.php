@@ -135,4 +135,37 @@ class Jelly_FieldTest extends PHPUnit_Framework_TestCase
 			}
 		}
 	}
+	
+	/**
+	 * Data provider for test_supports
+	 */
+	public function provider_supports()
+	{
+		return array(
+			array(new Jelly_Field_HasMany,    array(Jelly_Field::SAVE, Jelly_Field::ADD_REMOVE)),
+			array(new Jelly_Field_BelongsTo,  array(Jelly_Field::WITH)),
+			array(new Jelly_Field_ManyToMany, array(Jelly_Field::SAVE, Jelly_Field::HAS)),
+			array(new Jelly_Field_Boolean,    array(FALSE))
+		);
+	}
+	
+	/**
+	 * Tests Jelly_Field::supports()
+	 *
+	 * @dataProvider  provider_supports
+	 */
+	public function test_supports($field, array $supports)
+	{
+		foreach ($supports as $support)
+		{
+			if ($support)
+			{
+				$this->assertTrue($field->supports($support));
+			}
+			else
+			{
+				$this->assertFalse($field->supports(Jelly_Field::SAVE));
+			}
+		}
+	}
 }
