@@ -7,20 +7,20 @@ return array
 	
 	"CREATE TABLE authors (
 	  id INTEGER PRIMARY KEY,
-	  name TEXT NULL,
-	  password TEXT NULL,
-	  email TEXT NULL,
+	  name TEXT NOT NULL,
+	  password TEXT NOT NULL,
+	  email TEXT NOT NULL,
 	  role_id INTEGER NOT NULL
 	);",
 	
-	"INSERT INTO authors (id,name,email,role_id)
-	VALUES (1,'Jonathan Geiger','jonathan@jonathan-geiger.com',1);",
+	"INSERT INTO authors (id,name,email,password,role_id)
+	VALUES (1,'Jonathan Geiger','jonathan@jonathan-geiger.com','',1);",
 	
-	"INSERT INTO authors (id,name,email,role_id)
-	VALUES (2,'Paul Banks','paul@banks.com', 0);",
+	"INSERT INTO authors (id,name,email,password,role_id)
+	VALUES (2,'Paul Banks','paul@banks.com','',0);",
 	
-	"INSERT INTO authors (id,name,email,role_id)
-	VALUES (3,'Bobby Tables','bobby@sql-injection.com', 2);",
+	"INSERT INTO authors (id,name,email,password,role_id)
+	VALUES (3,'Bobby Tables','bobby@sql-injection.com','',2);",
 	
 	"DROP TABLE IF EXISTS categories;",
 

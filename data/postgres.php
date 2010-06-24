@@ -6,18 +6,18 @@ return array(
 
 	"CREATE TABLE authors (
 	  id serial,
-	  name varchar(255) NULL,
-	  password varchar(255) NULL,
-	  email varchar(255) NULL,
+	  name varchar(255) NOT NULL,
+	  password varchar(255) NOT NULL,
+	  email varchar(255) NOT NULL,
 	  role_id bigint NOT NULL,
 	  PRIMARY KEY (id)
 	);",
 
-	"INSERT INTO authors (id,name,email,role_id)
+	"INSERT INTO authors (id,name,email,password,role_id)
 	VALUES
-		(1,'Jonathan Geiger','jonathan@jonathan-geiger.com',1)
-		(2,'Paul Banks','paul@banks.com', 0);
-		(3,'Bobby Tables','bobby@sql-injection.com', 2);",
+		(1,'Jonathan Geiger','jonathan@jonathan-geiger.com','',1)
+		(2,'Paul Banks','paul@banks.com','',0);
+		(3,'Bobby Tables','bobby@sql-injection.com','',2);",
 		
 	"SELECT setval('authors_id_seq', (select max(id) + 1 from authors));",
 

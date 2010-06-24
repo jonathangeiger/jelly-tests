@@ -13,6 +13,38 @@ Jelly_Test::bootstrap();
 class Jelly_ModelTest extends PHPUnit_Framework_TestCase
 {
 	/**
+	 * Provider for test_save_empty_model
+	 */
+	public function provider_save_empty_model()
+	{
+		return array(
+			array(Jelly::factory('author')),
+			array(Jelly::factory('category')),
+		);
+	}
+	
+	/**
+	 * Tests that empty models can be saved with nothing set on them.
+	 * This should work for every model that has no rules that require
+	 * data to be set on them, since Jelly properly manages NULLs and
+	 * default values.
+	 * 
+	 * @dataProvider  provider_save_empty_model
+	 */
+	public function test_save_empty_model($model)
+	{
+		$model->save();
+		
+		// Model should be saved, loaded, and have an id
+		$this->assertTrue($model->saved());
+		$this->assertTrue($model->loaded());
+		$this->assertGreaterThan(0, $model->id);
+		
+		// Cleanup
+		$this->assertTrue($model->delete());
+	}
+	
+	/**
 	 * Provider for test_state
 	 */
 	public function provider_state()

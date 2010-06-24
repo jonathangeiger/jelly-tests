@@ -8,7 +8,7 @@ class Model_Category extends Jelly_Model
 		$meta->fields(array(
 			'id'     => Jelly::field('primary'),
 			'name'   => Jelly::field('string'),
-			'posts'  => Jelly::field('hasmany'),
+			'posts'  => Jelly::field('manytomany'),
 			'parent' => Jelly::field('belongsto', array(
 				'foreign' => 'category',
 				'column' => 'parent_id'
