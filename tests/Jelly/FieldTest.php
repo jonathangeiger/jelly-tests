@@ -27,6 +27,12 @@ class Jelly_FieldTest extends PHPUnit_Framework_TestCase
 				'default' => NULL
 			)),
 			array(new Jelly_Field_Integer(array(
+				'convert_empty' => TRUE,
+			)), array(
+				'null_set' => NULL,
+				'default'  => NULL,
+			)),
+			array(new Jelly_Field_Integer(array(
 				'allow_null' => FALSE,
 			)), array(
 				'default'  => 0,
@@ -134,6 +140,63 @@ class Jelly_FieldTest extends PHPUnit_Framework_TestCase
 				$this->assertSame($field->set($value), NULL);
 			}
 		}
+	}
+	
+	/**
+	 * Provider for test_set
+	 */
+	public function provider_set()
+	{
+		return array(
+			// Primary Keys
+			array(new Jelly_Field_Primary, 1, 1),
+			array(new Jelly_Field_Primary, 'primary-key-string', 'primary-key-string'),
+			
+			// Booleans
+			array(new Jelly_Field_Boolean, 1, TRUE),
+			array(new Jelly_Field_Boolean, '1', TRUE),
+			array(new Jelly_Field_Boolean, 'TRUE', TRUE),
+			array(new Jelly_Field_Boolean, 'yes', TRUE),
+			
+			// Integers
+			array(new Jelly_Field_Integer, 1.1, 1),
+			array(new Jelly_Field_Integer, '1', 1),
+			
+			// Floats
+			array(new Jelly_Field_Float, 1, 1.0),
+			array(new Jelly_Field_Float(array('places' => 2)), 3.14157, 3.14),
+			array(new Jelly_Field_Float, '3.14157', 3.14157),
+			
+			// Strings
+			array(new Jelly_Field_String, 1, '1'),
+			
+			// Slugs
+			array(new Jelly_Field_Slug, 'Hello, World', 'hello-world'),
+			
+			// Serializable data
+			array(new Jelly_Field_Serialized, array(), array()),
+			array(new Jelly_Field_Serialized, 'a:1:{i:0;s:4:"test";}', array('test')),
+			array(new Jelly_Field_Serialized, 's:0:"";', ''),
+			
+			// Timestamps
+			array(new Jelly_Field_Timestamp, 'Some Unparseable Time', 'Some Unparseable Time'),
+			array(new Jelly_Field_Timestamp, '1264985682', 1264985682),
+			array(new Jelly_Field_Timestamp, '03/15/2010 12:56:32', 1268675792),
+			
+			// Enumerated lists
+			array(new Jelly_Field_Enum(array('choices' => array(1,2,3))), '1', '1'),
+			array(new Jelly_Field_Enum(array('choices' => array(1,2,3))), '4', '4'),
+		);
+	}
+	
+	/**
+	 * Tests Jelly_Field::set
+	 * 
+	 * @dataProvider provider_set
+	 */
+	public function test_set($field, $value, $expected)
+	{
+		$this->assertSame($expected, $field->set($value));
 	}
 	
 	/**
