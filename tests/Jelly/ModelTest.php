@@ -45,6 +45,93 @@ class Jelly_ModelTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
+	 * Tests that primary keys can be changed or set manually.
+	 * 
+	 * We don't put this in the PrimaryTest because it has more
+	 * to do with how the model handles it than the field.
+	 */
+	public function test_save_primary_key()
+	{
+		$model = Jelly::factory('post');
+		$model->id = 9000;
+		$model->save();
+		
+		// Verify data is as it should be
+		$this->assertTrue($model->saved());
+		$this->assertEquals(9000, $model->id);
+		
+		// Verify the record actually exists in the database
+		$this->assertTrue(Jelly::factory('post', 9000)->loaded());
+		
+		// Manually re-selecting so that Postgres doesn't cause errors down the line
+		$model = Jelly::factory('post', 9000);
+		
+		// Change it again so we can verify it works on UPDATE as well
+		// This is key because Jelly got this wrong in the past
+		$model->id = 9001;
+		$model->save();
+		
+		// Verify we can't find the old record 9000
+		$this->assertFalse(Jelly::factory('post', 9000)->loaded());
+		
+		// And that we can find the new 9001
+		$this->assertTrue(Jelly::factory('post', 9001)->loaded());
+		
+		// Cleanup
+		Jelly::factory('post', 9001)->delete();
+	}
+	
+	/**
+	 * Provider for test_add_remove
+	 */
+	public function provider_add_remove()
+	{
+		// For has many
+		$author = Jelly::factory('author', 1);
+		
+		// For many to many
+		$post = Jelly::factory('post', 1);
+		
+		return array(
+			array($author, 'posts', 1, 1),
+			array($author, 'posts', Jelly::query('post')->select(), 2),
+			array($author, 'posts', array(1, 2), 2),
+			array($author, 'posts', 999, 0),
+			array($author, 'posts', array(999, 998, 997, 45), 0),
+			array($author, 'posts', array(Jelly::factory('post')), 0),
+			array($post, 'categories', 1, 1),
+			array($post, 'categories', Jelly::query('category')->select(), 3),
+			array($post, 'categories', array(1, 2), 2),
+			array($post, 'categories', 999, 0),
+			array($post, 'categories', array(999, 998, 997, 45), 0),
+			array($post, 'categories', array(Jelly::factory('category')), 0),
+		);
+	}
+	
+	/**
+	 * Tests Jelly_Model::add() and Jelly_Model::remove()
+	 * 
+	 * @dataProvider provider_add_remove
+	 */
+	public function test_add_remove($model, $field, $change, $changed)
+	{
+		// Save the original count for testing
+		$count = count($model->$field);
+		
+		// Null out posts
+		$model->remove($field, $change);
+		$model->save();
+
+		$this->assertSame($count - $changed, count($model->$field));
+		
+		// Should return back to normal state
+		$model->add($field, $change);
+		$model->save();
+		
+		$this->assertEquals($count, count($model->$field));
+	}
+	
+	/**
 	 * Provider for test_state
 	 */
 	public function provider_state()
@@ -108,6 +195,41 @@ class Jelly_ModelTest extends PHPUnit_Framework_TestCase
 	public function test_original($model, $field, $expected)
 	{
 		$this->assertSame($model->original($field), $expected);
+	}
+	
+	/**
+	 * Provider for test_changed
+	 */
+	public function provider_changed()
+	{
+		// Create a mock model for most of our tests
+		$alias = Jelly::factory('alias')
+			->load_values(array(
+				'id'          => 1,
+				'name'        => 'Test',
+				'description' => 'Description',
+			))->set(array(
+				'id'          => 2,
+				'name'        => 'Test2',
+				'description' => 'Description',
+			));
+			
+		// Test without changes
+		return array(
+			array($alias, '_id', TRUE),
+			array($alias, 'name', TRUE),
+			array($alias, 'description', FALSE),
+		);
+	}
+	
+	/**
+	 * Tests Jelly_Model::changed()
+	 * 
+	 * @dataProvider provider_changed
+	 */
+	public function test_changed($model, $field, $expected)
+	{
+		$this->assertSame($model->changed($field), $expected);
 	}
 	
 	/**
