@@ -115,6 +115,21 @@ class Jelly_Builder_SelectTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
+	 * Provider for test_as_object
+	 */
+	public function provider_as_object()
+	{
+		return array(
+			array(Jelly::query('post')->select(), 'Model_Post'),
+			array(Jelly::query('post')->as_object('Model_Post')->select(), 'Model_Post'),
+			array(Jelly::query('post')->as_object(TRUE)->select(), 'Model_Post'),
+			array(Jelly::query('post')->as_object('stdClass')->select(), 'stdClass'),
+			array(Jelly::query('post')->as_assoc()->select(), FALSE),
+			array(Jelly::query('post')->as_object(FALSE)->select(), FALSE),
+		);
+	}
+	
+	/**
 	 * Tests basic with() functionality
 	 */
 	public function test_with()
@@ -132,6 +147,23 @@ class Jelly_Builder_SelectTest extends PHPUnit_Framework_TestCase
 		foreach ($query as $model)
 		{
 			$this->assertTrue($model->author instanceof Model_Author);
+		}
+	}
+	
+	/**
+	 * Tests Jelly_Builder::as_object()
+	 *
+	 * @dataProvider  provider_as_object
+	 */
+	public function test_as_object($result, $class)
+	{
+		if ($class)
+		{
+			$this->assertTrue($result->current() instanceof $class);
+		}
+		else
+		{
+			$this->assertTrue(is_array($result->current()));
 		}
 	}
 	
