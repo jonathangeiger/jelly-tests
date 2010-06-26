@@ -97,6 +97,24 @@ class Jelly_FieldTest extends PHPUnit_Framework_TestCase
 				'default'    => NULL,
 				'choices' => array(NULL, 'one', 'two', 'three')
 			)),
+			
+			// BelongsTo
+			array(new Jelly_Field_BelongsTo, array(
+				'default'  => 0,
+				'null_set' => 0,
+			)),
+			array(new Jelly_Field_BelongsTo(array(
+				'convert_empty' => FALSE,
+			)), array(
+				'default'  => 0,
+				'null_set' => 0,
+			)),
+			array(new Jelly_Field_BelongsTo(array(
+				'allow_null' => TRUE,
+			)), array(
+				'default'  => NULL,
+				'empty_value' => NULL,
+			)),
 		);
 	}
 	
@@ -131,13 +149,16 @@ class Jelly_FieldTest extends PHPUnit_Framework_TestCase
 		// Ensure convert_empty works
 		if ($field->convert_empty)
 		{
-			// allow_null must be true if convert_empty is
-			$this->assertTrue($field->allow_null, 'allow_null must be TRUE since convert_empty is TRUE');
+			// allow_null must be true if convert_empty is TRUE and empty_value is NULL
+			if ($field->empty_value === NULL)
+			{
+				$this->assertTrue($field->allow_null, 'allow_null must be TRUE since convert_empty is TRUE');
+			}
 			
 			// Test setting a few empty values
 			foreach (array(NULL, FALSE, '', '0', 0) as $value)
 			{
-				$this->assertSame($field->set($value), NULL);
+				$this->assertSame($field->set($value), $field->empty_value);
 			}
 		}
 	}
@@ -186,6 +207,11 @@ class Jelly_FieldTest extends PHPUnit_Framework_TestCase
 			// Enumerated lists
 			array(new Jelly_Field_Enum(array('choices' => array(1,2,3))), '1', '1'),
 			array(new Jelly_Field_Enum(array('choices' => array(1,2,3))), '4', '4'),
+			
+			// BelongsTo
+			array(new Jelly_Field_BelongsTo, '1', 1),
+			array(new Jelly_Field_BelongsTo, 'string', 'string'),
+			array(new Jelly_Field_BelongsTo, Model::factory('post', 1), 1),
 		);
 	}
 	
