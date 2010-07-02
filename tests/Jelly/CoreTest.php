@@ -61,47 +61,6 @@ class Jelly_CoreTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * Provider for test_alias.
-	 */
-	public function provider_alias()
-	{
-		return array(
-			// Test regular aliasing
-			array('alias.id', 'aliases', 'id-alias'),
-			array('alias.bar', 'aliases', 'bar'),
-			
-			// Test meta-aliasing
-			array('alias.:foreign_key', 'aliases', 'alias_id'),
-			array('alias.author:foreign_key', 'aliases', 'author_id'),
-			array('author:foreign_key', NULL, 'author_id'),
-			
-			// Test aliased fields
-			array('alias._id', 'aliases', 'id-alias'),
-			
-			// _bar doesn't actually point to a field even though it is aliased to do so
-			array('alias._bar', 'aliases', '_bar'),
-			
-			// These don't exist anywhere and can't be resolved to anything
-			array('foo.bar', 'foo', 'bar'),
-			array('foo', NULL, 'foo'),
-		);
-	}
-
-	/**
-	 * Tests Jelly::alias() and Jelly::meta_alias() which are two core
-	 * methods for aliasing in Jelly. 
-	 * 
-	 * @dataProvider provider_alias
-	 */
-	public function test_alias($input, $table, $column)
-	{
-		$alias = Jelly::alias($input);
-		
-		$this->assertSame($table, $alias['table']);
-		$this->assertSame($column, $alias['column']);
-	}
-	
-	/**
 	 * Provider for test_model_name
 	 */
 	public function provider_model_name()
