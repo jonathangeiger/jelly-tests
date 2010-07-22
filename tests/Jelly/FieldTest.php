@@ -79,7 +79,7 @@ class Jelly_FieldTest extends PHPUnit_Framework_TestCase
 				'choices' => array('one', 'two', 'three')
 			)), array(
 				'default'  => 'one',
-				'null_set' => ''
+				'null_set' => '',
 			)),
 			// allow_null should be set since there is a NULL value here
 			array(new Jelly_Field_Enum(array(
@@ -95,7 +95,7 @@ class Jelly_FieldTest extends PHPUnit_Framework_TestCase
 			)), array(
 				'allow_null' => TRUE,
 				'default'    => NULL,
-				'choices' => array(NULL, 'one', 'two', 'three')
+				'choices' => array('' => NULL, 'one' => 'one', 'two' => 'two', 'three' => 'three')
 			)),
 			
 			// BelongsTo

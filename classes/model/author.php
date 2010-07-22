@@ -13,7 +13,7 @@ class Model_Author extends Model_Test
 		
 		$meta->fields(array(
 			'id'       => Jelly::field('primary'),
-			'name'     => Jelly::field('string', array('rules' => array('not_empty' => NULL))),
+			'name'     => Jelly::field('string'),
 			'password' => Jelly::field('password'),
 			'email'    => Jelly::field('email'),
 			'posts'    => Jelly::field('hasmany'),

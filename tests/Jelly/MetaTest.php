@@ -61,13 +61,6 @@ class Jelly_MetaTest extends PHPUnit_Framework_TestCase
 		// Ensure all fields match
 		$this->assertSame($meta->fields(), $fields);
 		
-		// Ensure columns are set properly
-		$this->assertSame($meta->columns(), array(
-			'id' => array('id'), 
-			'id2' => array('id2'), 
-			'name' => array('name')
-		));
-		
 		// Ensure defaults are set properly
 		$this->assertSame($meta->defaults(), array(
 			'id' => NULL, 
